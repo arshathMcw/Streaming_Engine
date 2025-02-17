@@ -21,11 +21,11 @@ int main(){
     seTemplate.DIMFMT = __SE_DIMFMT_1D;
     seTemplate.ICNT0 = ARRAY_LENGTH;
     __SE0_OPEN((void *)&input[0], seTemplate);
-    int32_t numItrs = std::ceil(ARRAY_LENGTH / 16.0);
+    int32_t numItrs = ceil(ARRAY_LENGTH / 16.0);
 
     for(int32_t ctr = 0; ctr < numItrs; ctr++) {
         int_vec vIn = strm_eng<0, int_vec>::get_adv();
-        printf("vIn[%d] = ", ctr);
+        cout<<"vIn["<<ctr<<"] = ";
         vIn.print();
     }
     __SE0_CLOSE();

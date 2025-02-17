@@ -9,10 +9,9 @@ using namespace c7x;
 #define IMG_STRIDE (IMG_WIDTH)
 #define NUM_CH     (3)
 
-0
-256
-512
-
+// 0
+// 256
+// 512
 
 int main(){
     int32_t image1[NUM_CH * IMG_STRIDE * IMG_HEIGHT],image2[NUM_CH * IMG_STRIDE * IMG_HEIGHT],output[NUM_CH * IMG_STRIDE * IMG_HEIGHT];
