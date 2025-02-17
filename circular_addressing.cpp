@@ -31,7 +31,8 @@ int main(){
     seTemplate.VECLEN    = se_veclen<int_vec>::value;
     seTemplate.DIMFMT = __SE_DIMFMT_2D;
     seTemplate.ICNT0 = IMG_WIDTH;
-    seTemplate.ICNT1 = IMG_HEIGHT;  seTemplate.DIM1 = IMG_STRIDE;
+    seTemplate.ICNT1 = IMG_HEIGHT;  
+    seTemplate.DIM1 = IMG_STRIDE;
     __SE0_OPEN((void *)&img_buffer[0], seTemplate);
     for(int32_t ctr = 0; ctr < (IMG_HEIGHT * ceil(IMG_WIDTH/16.0)); ctr++) {
         int_vec vIn = strm_eng<0, int_vec>::get_adv();

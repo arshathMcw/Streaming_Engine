@@ -4,4 +4,5 @@
 ![alt text](image-4.png)
 ## Element Promote
 ![alt text](image-5.png)
-## Element Decimation
+## Less than or Equal to Zero
+![alt text](image-6.png)
