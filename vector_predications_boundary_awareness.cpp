@@ -48,7 +48,7 @@ int main(){
     __SE0_OPEN((void *)&img_buffer[0], seTemplate);
     for(int32_t ctr = 0; ctr < (IMG_HEIGHT * ceil(IMG_WIDTH/16.0)); ctr++) {
         int_vec vIn = strm_eng<0, int_vec>::get_adv();
-        printf("vIn[%d] = ", ctr);
+        cout<<"vIn["<<ctr<<"] = ";
         vIn.print();
     }
     __SE0_CLOSE();
@@ -57,7 +57,7 @@ int main(){
     __SE0_OPEN((void *)&img_buffer[0], seTemplate);
     for(int32_t ctr = 0; ctr < (IMG_HEIGHT * ceil(IMG_WIDTH/16.0)); ctr++) {
         int_vec vIn = strm_eng<0, int_vec>::get_adv();
-        printf("vIn[%d] = ", ctr);
+        cout<<"vIn["<<ctr<<"] = ";
         vIn.print();
     }
     __SE0_CLOSE();
