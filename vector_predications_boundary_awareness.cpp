@@ -39,4 +39,26 @@ int main(){
         vIn.print();
     }
     __SE0_CLOSE();
+    seTemplate.DIMFMT = __SE_DIMFMT_3D;
+    seTemplate.ICNT0 = 16;
+    seTemplate.ICNT1 = IMG_HEIGHT;  
+    seTemplate.DIM1 = IMG_STRIDE;
+    seTemplate.ICNT2 = 2;           
+    seTemplate.DIM2 = 16;
+    __SE0_OPEN((void *)&img_buffer[0], seTemplate);
+    for(int32_t ctr = 0; ctr < (IMG_HEIGHT * ceil(IMG_WIDTH/16.0)); ctr++) {
+        int_vec vIn = strm_eng<0, int_vec>::get_adv();
+        printf("vIn[%d] = ", ctr);
+        vIn.print();
+    }
+    __SE0_CLOSE();
+    seTemplate.DECDIM1  = __SE_DECDIM_DIM2;
+    seTemplate.DECDIM1_WIDTH = IMG_WIDTH;
+    __SE0_OPEN((void *)&img_buffer[0], seTemplate);
+    for(int32_t ctr = 0; ctr < (IMG_HEIGHT * ceil(IMG_WIDTH/16.0)); ctr++) {
+        int_vec vIn = strm_eng<0, int_vec>::get_adv();
+        printf("vIn[%d] = ", ctr);
+        vIn.print();
+    }
+    __SE0_CLOSE();
 }
