@@ -50,6 +50,7 @@ int main(){
         outIdx += vec_len;
     }
     __SE0_CLOSE();
+    __SE1_CLOSE();
     cout<<"Result : "<<endl;
     for(int32_t ch = 0; ch < NUM_CH; ch++) {
         int32_t *out = (int32_t *)&output[(ch * (IMG_STRIDE * IMG_HEIGHT))];
