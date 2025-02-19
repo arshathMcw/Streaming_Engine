@@ -10,7 +10,7 @@ using namespace std;
 using namespace c7x;
 int main(){
     //  col 1 and row2 need to be same :)
-    int row1 = 1,col1 = 67,row2 = 67 ,col2 = 32,vec_len = element_count_of<int_vec>::value,iteration1, iteration2;
+    int row1 = 100,col1 = 32,row2 = 32 ,col2 = 20,vec_len = element_count_of<int_vec>::value,iteration1, iteration2;
     // cout<<"Enter the Row Size for Matrix 1 : ";
     // cin>>row1;
     // cout<<"Enter the Column Size for Matrix 1 : ";
@@ -63,18 +63,28 @@ int main(){
     seTemplate2.VECLEN    = se_veclen<int_vec>::value;
     seTemplate2.DIMFMT = __SE_DIMFMT_2D;
     seTemplate2.ICNT0 = col1;
-    seTemplate2.ICNT1 = row1;                 
+    seTemplate2.ICNT1 = 1;                 
     seTemplate2.DIM1 = col1;
     seTemplate2.ELEDUP    = __SE_ELEDUP_16X;
-    // __SE1_OPEN((void *)&arr[0], seTemplate);
 
+
+    // For Address Generator
+    __SA_TEMPLATE_v1 saTemplate = __gen_SA_TEMPLATE_v1();
+    saTemplate.VECLEN    = sa_veclen<int_vec>::value;
+    saTemplate.DIMFMT = __SA_DIMFMT_2D;
+    saTemplate.ICNT0 = col2;
+    saTemplate.ICNT1 = row1; 
+    saTemplate.DIM1 = col2;
+
+    
+
+    
     for(int r = 0;r < row1;r++){
-        mat2Idx = &mat2[0][0];
-        res2Idx = &res2[r][0];
+        __SA0_OPEN(saTemplate);
         for(int c = 0;c+vec_len <= col2;c+=vec_len){
             int_vec vOutC = (int_vec)(0);
             __SE0_OPEN((void *)&mat2[0][c], seTemplate);
-            __SE1_OPEN((void *)&mat1[0][0], seTemplate2);
+            __SE1_OPEN((void *)&mat1[r][0], seTemplate2);
             int times = 0;
             for(int cc = 0;cc < col1;cc+=1){
                 int_vec resw = __vmpyww_vvv(strm_eng<0, int_vec>::get_adv(),strm_eng<1, int_vec>::get_adv());
@@ -82,9 +92,12 @@ int main(){
                 iteration2++;
                 __SE0_OPEN((void *)&mat2[cc+1][c], seTemplate);
             }
-            *(int_vec *) (res2Idx) = vOutC;
-            res2Idx += vec_len;
+            vOutC.print();
+            __vpred pred = strm_agen<0, int_vec>::get_vpred();
+            int_vec * addr = strm_agen<0, int_vec>::get_adv(&res2[r][c]);
+            __vstore_pred(pred, addr, vOutC);
         }
+        __SA0_CLOSE();
         //  For Remaining Index
         for(int x = start;x < col2;x++){
             for(int k = 0;k < col1;k++){
@@ -97,6 +110,7 @@ int main(){
         for(int c = 0;c < col2;c++){
             if(res[r][c] != res2[r][c]) {     
                 cout<<"They are not equal"<<endl;
+                return 0;
             }
         }
     }
