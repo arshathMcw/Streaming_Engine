@@ -9,16 +9,15 @@ cd scripts
 using namespace std;
 using namespace c7x;
 int main(){
-    //  col 1 and row2 need to be same :)
-    int row1 = 1,col1 = 32,row2 = 32 ,col2 = 32,vec_len = element_count_of<int_vec>::value,iteration1, iteration2;
-    // cout<<"Enter the Row Size for Matrix 1 : ";
-    // cin>>row1;
-    // cout<<"Enter the Column Size for Matrix 1 : ";
-    // cin>>col1;
-    // cout<<"Enter the Row Size for Matrix 2 : ";
-    // cin>>row2;
-    // cout<<"Enter the Column Size for Matrix 2 : ";
-    // cin>>col2;
+    int row1,col1,row2,col2,vec_len = element_count_of<int_vec>::value,iteration1, iteration2;
+    cout<<"Enter the Row Size for Matrix 1 : ";
+    cin>>row1;
+    cout<<"Enter the Column Size for Matrix 1 : ";
+    cin>>col1;
+    cout<<"Enter the Row Size for Matrix 2 : ";
+    cin>>row2;
+    cout<<"Enter the Column Size for Matrix 2 : ";
+    cin>>col2;
     if(row2 != col1){
         cout<<"This is not a valid matrix to do multiplication";
         return 0;
@@ -50,7 +49,7 @@ int main(){
     }
     int rem = col2 % vec_len;
     int start = col2 - rem;
-
+    cout<<"Start : "<<start<<endl;
     // Add Streaming Engine
     __SE_TEMPLATE_v1 seTemplate = __gen_SE_TEMPLATE_v1();
     seTemplate.ELETYPE   = se_eletype<int_vec>::value;
@@ -90,17 +89,17 @@ int main(){
                 __SE0_OPEN((void *)&mat2[cc+1][c], seTemplate);
             }
             // vOutC.print();
-            // __vpred pred = strm_agen<0, int_vec>::get_vpred();
-            // int_vec * addr = strm_agen<0, int_vec>::get_adv(&res2[r][c]);
-            // __vstore_pred(pred, addr, vOutC);
-            *(int_vec *) (res2Idx) = vOutC;
-            res2Idx += vec_len;
+            __vpred pred = strm_agen<0, int_vec>::get_vpred();
+            int_vec * addr = strm_agen<0, int_vec>::get_adv(&res2[0][0]);
+            __vstore_pred(pred, addr, vOutC);
+            // *(int_vec *) (res2Idx) = vOutC;
+            // res2Idx += vec_len;
         }
-        __SA0_CLOSE();
+        // __SA0_CLOSE();
         for(int x = start;x < col2;x++){
             for(int k = 0;k < col1;k++){
                 res2[r][x] += mat1[r][k] * mat2[k][x];  
-                // iteration2++;
+                iteration2++;
             }
         }
     }
@@ -110,6 +109,7 @@ int main(){
                 cout<<"They are not Equal :("<<endl;
                 return 0;
             }
+            // cout<<res2[r][c]<<" ";
         }
     }
     cout<<"Iteration 1 : "<<iteration1<<endl;
